@@ -1,0 +1,7 @@
+/venv/
+.idea
+files
+dist
+build
+examples
+test
