@@ -44,9 +44,9 @@ output_label_ext = sg.Text(key="extraction_output", font="times")
 #back_button_ext = sg.Button("Back", size=30, key="back_ext", pad=((20, 0), (0, 0)), button_color="#85754e", font="times")
 #######################################################################################################
 
-col_left1 = sg.Column([[sg.Image("files/trex_pixelart.png", background_color="#fcc200", size=(300, 300))]])
+col_left1 = sg.Column([[sg.Image("trex_pixelart.png", background_color="#fcc200", size=(300, 300))]])
 
-col_left2 = sg.Column([[sg.Image("files/trex_pixelart.png", background_color="#fcc200", size=(300, 300))]])
+col_left2 = sg.Column([[sg.Image("trex_pixelart.png", background_color="#fcc200", size=(300, 300))]])
 
 col_middle = sg.Column([[label_comp, input_comp, button_comp], [label_comp2, input_comp2, button_comp2],
                         [output_type_label, type_label1, type_label2],
@@ -63,7 +63,7 @@ choose_ext = sg.Radio("Extract archives", group_id="start", default=False, key="
                       background_color="#fcc200", font="times")
 start_button = sg.Button("Start", size=30, key="start", pad=((20, 0), (0, 0)), button_color="#85754e", font="times")
 exit_button_s = sg.Button("Exit", size=30, key='exit_s', pad=((20, 0), (0, 0)), button_color="#85754e", font="times")
-start_image = sg.Image("files/trex_pixelart.png", background_color="#fcc200", size=(300, 300))
+start_image = sg.Image("trex_pixelart.png", background_color="#fcc200", size=(300, 300))
 
 start_column = sg.Column([[start_image], [label_start], [choose_comp, choose_ext], [start_button], [exit_button_s]])
 
@@ -83,7 +83,9 @@ while True:
         while True:
             event, values = window.read()
             print(event, values)
-            filepaths = values['files'].split(";")
+            if event == sg.WIN_CLOSED or event == "Exit":
+                break
+            filepaths = values["files"].split(";")
             folder = values['folder']
 
             if values['zip'] == True:
@@ -102,8 +104,6 @@ while True:
                 window.read(timeout=2000)
                 window["output"].update(value="Waiting for files to compress")
 
-            if event == sg.WIN_CLOSED or event == "Exit":
-                break
         window.close()
     else:
         start_window.close()
