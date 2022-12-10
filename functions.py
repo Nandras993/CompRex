@@ -4,6 +4,7 @@ import py7zr
 import pathlib
 
 
+
 def make_zip(filepaths, dest_dir):
     dest_path = pathlib.Path(dest_dir, "compressed.zip")
     with zipfile.ZipFile(dest_path, 'w') as archive:
