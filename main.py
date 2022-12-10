@@ -111,6 +111,8 @@ while True:
         while True:
             event, values = window_ext.read()
             print(event, values)
+            if event == sg.WIN_CLOSED or event == "Exit":
+                break
             archive_path = values['archive']
             dest_dir = values['folder_ext']
 
@@ -136,8 +138,6 @@ while True:
                 window_ext.read(timeout=2000)
                 window_ext["extraction_output"].update(value="Waiting for archive to extract")
 
-            if event == sg.WIN_CLOSED or event == "Exit":
-                break
         window_ext.close()
 
 start_window.close()
