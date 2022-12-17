@@ -4,9 +4,9 @@ import py7zr
 import pathlib
 
 
-
-def make_zip(filepaths, dest_dir):
-    dest_path = pathlib.Path(dest_dir, "compressed.zip")
+def make_zip(filepaths, dest_dir, input_name):
+    archive_name = str(input_name + ".zip")
+    dest_path = pathlib.Path(dest_dir, archive_name)
     with zipfile.ZipFile(dest_path, 'w') as archive:
         for filepath in filepaths:
             filepath = pathlib.Path(filepath)
@@ -23,8 +23,9 @@ def extract_rar(archive_path, dest_dir):
         archive.extractall(dest_dir)
 
 
-def make_7z(filepaths, dest_dir):
-    dest_path = pathlib.Path(dest_dir, "compressed.7z")
+def make_7z(filepaths, dest_dir, input_name):
+    archive_name = str(input_name + ".7z")
+    dest_path = pathlib.Path(dest_dir, archive_name)
     with py7zr.SevenZipFile(dest_path, mode='w') as archive:
         for filepath in filepaths:
             filepath = pathlib.Path(filepath)

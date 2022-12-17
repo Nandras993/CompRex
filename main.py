@@ -6,27 +6,31 @@ sg.theme_text_color("black")
 sg.theme_text_element_background_color("#fcc200")
 sg.theme_button_color("#85754e")
 
-output_type_label = sg.Text("Archive extension: ", font="times")
+output_type_label = sg.Text("Archive extension:", font="times")
 
-label_comp = sg.Text("Select files to compress:  ", font="times")
-input_comp = sg.Input(key="input1", font="times")
+label_comp = sg.Text("Select files to compress:", font="times")
+input_comp = sg.Input(key="input1", font="times", pad=((7, 0), (0, 0)))
 button_comp = sg.FilesBrowse("Choose", tooltip="To select more than one file, "
                                                "press and hold ctrl while clicking"
                                                " on the files with your left mouse button.",
-                             key='files', enable_events=True, font="times")
+                             key='files', enable_events=True, font="times", pad=((10, 0), (0, 0)))
 
-label_comp2 = sg.Text("Select destination folder:  ", font="times")
+label_comp2 = sg.Text("Select destination folder:", font="times")
 input_comp2 = sg.Input(key="input2", font="times")
 button_comp2 = sg.FolderBrowse("Choose", tooltip="Choose the destination for the archive.",
                                key="folder", font="times")
-type_label1 = sg.Radio(".zip", group_id="comp", default=True, key="zip", background_color="#fcc200", font="times")
+type_label1 = sg.Radio(".zip", group_id="comp", default=True, key="zip", background_color="#fcc200", font="times", pad=((40, 0), (0, 0)))
 type_label2 = sg.Radio(".7z", group_id="comp", default=False, key="7z", background_color="#fcc200", font="times")
 
-compress_button = sg.Button("Compress", font="times")
-output_label = sg.Text(key="output", font="times")
+label_name = sg.Text("Name your archive:", font="times")
+input_name = sg.Input(key="input_name", font="times", pad=((33, 0), (0, 0)))
 
-#back_button_comp = sg.Button("Back", size=30, key="backt_comp", pad=((20, 0), (0, 0)), button_color="#85754e", font="times")
-###############################################################################################################
+compress_button = sg.Button("Compress", font="times", pad=((0, 0), (20, 0)), size=(20, 1))
+output_label = sg.Text(key="output", font="times", pad=((20, 0), (20, 0)))
+
+# back_button_comp = sg.Button("Back", size=30, key="backt_comp", pad=((20, 0), (0, 0)), button_color="#85754e",
+# font="times")
+# ##############################################################################################################
 
 label_ext = sg.Text("Select archive to extract:", font="times")
 input_ext = sg.Input(key="input_ext1", font="times")
@@ -41,18 +45,26 @@ button__ext2 = sg.FolderBrowse("Choose", tooltip="Choose the destination of the 
 ext_button = sg.Button("Extract", key='extract', font="times")
 output_label_ext = sg.Text(key="extraction_output", font="times")
 
-#back_button_ext = sg.Button("Back", size=30, key="back_ext", pad=((20, 0), (0, 0)), button_color="#85754e", font="times")
+# back_button_ext = sg.Button("Back", size=30, key="back_ext", pad=((20, 0), (0, 0)), button_color="#85754e",
+# font="times")
 #######################################################################################################
 
-col_left1 = sg.Column([[sg.Image("trex_pixelart.png", background_color="#fcc200", size=(300, 300))]])
+img_start = sg.Image("trex_pix.png", background_color="#fcc200", size=(300, 300))
+img_comp = sg.Image("trex_comp.png", background_color="#fcc200", size=(300, 300))
 
-col_left2 = sg.Column([[sg.Image("trex_pixelart.png", background_color="#fcc200", size=(300, 300))]])
+col_left1 = sg.Column([[img_comp]])
 
-col_middle = sg.Column([[label_comp, input_comp, button_comp], [label_comp2, input_comp2, button_comp2],
+col_left2 = sg.Column([[img_start]])
+
+col1_middle1 = sg.Column([[label_comp, input_comp, button_comp],
+                        [label_comp2, input_comp2, button_comp2],
                         [output_type_label, type_label1, type_label2],
+                        [label_name, input_name],
                         [compress_button, output_label]])
-col_middle2 = sg.Column([[label_ext, input_ext, button_ext],
-                         [label_ext2, input_ext2, button__ext2], [ext_button, output_label_ext]])
+
+col2_middle1 = sg.Column([[label_ext, input_ext, button_ext],
+                         [label_ext2, input_ext2, button__ext2],
+                         [ext_button, output_label_ext]])
 
 ########################################################################################################
 
@@ -63,15 +75,15 @@ choose_ext = sg.Radio("Extract archives", group_id="start", default=False, key="
                       background_color="#fcc200", font="times")
 start_button = sg.Button("Start", size=30, key="start", pad=((20, 0), (0, 0)), button_color="#85754e", font="times")
 exit_button_s = sg.Button("Exit", size=30, key='exit_s', pad=((20, 0), (0, 0)), button_color="#85754e", font="times")
-start_image = sg.Image("trex_pixelart.png", background_color="#fcc200", size=(300, 300))
+start_image = sg.Image("trex_pix.png", background_color="#fcc200", size=(300, 300))
 
 start_column = sg.Column([[start_image], [label_start], [choose_comp, choose_ext], [start_button], [exit_button_s]])
 
 start_window = sg.Window("CompRex", layout=[[start_column]])
 
-window = sg.Window("CompREX", layout=[[col_left1, col_middle]])
+window = sg.Window("CompREX", layout=[[col_left1, col1_middle1]])
 
-window_ext = sg.Window("CompREX", layout=[[col_left2, col_middle2]])
+window_ext = sg.Window("CompREX", layout=[[col_left2, col2_middle1]])
 
 while True:
     event, values = start_window.read()
@@ -87,22 +99,23 @@ while True:
                 break
             filepaths = values["files"].split(";")
             folder = values['folder']
+            input_name = values['input_name']
 
             if values['zip'] == True:
-                functions.make_zip(filepaths, folder)
+                functions.make_zip(filepaths, folder, input_name)
                 window['input1'].update(value="")
                 window['input2'].update(value="")
                 window["output"].update(value="Compression completed!")
                 window.read(timeout=2000)
-                window["output"].update(value="Waiting for file/files to compress")
+                window["output"].update(value="Waiting for file/files to compress...")
 
             elif values['7z'] == True:
-                functions.make_7z(filepaths, folder)
+                functions.make_7z(filepaths, folder, input_name)
                 window['input1'].update(value="")
                 window['input2'].update(value="")
                 window["output"].update(value="Compression completed!")
                 window.read(timeout=2000)
-                window["output"].update(value="Waiting for files to compress")
+                window["output"].update(value="Waiting for files to compress...")
 
         window.close()
     else:
