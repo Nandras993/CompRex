@@ -5,4 +5,5 @@ build
 examples
 test
 main.spec
-files
+/files/trex_comp_backup.png
+/files/trex_ext.aseprite

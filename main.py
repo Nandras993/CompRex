@@ -49,12 +49,13 @@ output_label_ext = sg.Text(key="extraction_output", font="times")
 # font="times")
 #######################################################################################################
 
-img_start = sg.Image("trex_pix.png", background_color="#fcc200", size=(300, 300))
-img_comp = sg.Image("trex_comp.png", background_color="#fcc200", size=(300, 300))
+img_start = sg.Image("files/trex_pix.png", background_color="#fcc200", size=(300, 300))
+img_comp = sg.Image("files/trex_comp.png", background_color="#fcc200", size=(300, 300))
+img_ext = sg.Image("files/trex_ext.png", background_color="#fcc200", size=(300, 300))
 
 col_left1 = sg.Column([[img_comp]])
 
-col_left2 = sg.Column([[img_start]])
+col_left2 = sg.Column([[img_ext]])
 
 col1_middle1 = sg.Column([[label_comp, input_comp, button_comp],
                         [label_comp2, input_comp2, button_comp2],
@@ -75,7 +76,7 @@ choose_ext = sg.Radio("Extract archives", group_id="start", default=False, key="
                       background_color="#fcc200", font="times")
 start_button = sg.Button("Start", size=30, key="start", pad=((20, 0), (0, 0)), button_color="#85754e", font="times")
 exit_button_s = sg.Button("Exit", size=30, key='exit_s', pad=((20, 0), (0, 0)), button_color="#85754e", font="times")
-start_image = sg.Image("trex_pix.png", background_color="#fcc200", size=(300, 300))
+start_image = sg.Image("files/trex_pix.png", background_color="#fcc200", size=(300, 300))
 
 start_column = sg.Column([[start_image], [label_start], [choose_comp, choose_ext], [start_button], [exit_button_s]])
 
